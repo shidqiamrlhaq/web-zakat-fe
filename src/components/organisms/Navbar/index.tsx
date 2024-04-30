@@ -1,16 +1,22 @@
-import { Menu } from "lucide-react";
+import { ChevronDown, Menu } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useState } from "react";
 
 import { ToggleTheme } from "@/components/molecules";
 import { Button } from "@/components/ui/button";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { navItems } from "@/lib/constant";
 
 export const Navbar = () => {
   const router = useRouter();
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <header className="flex h-14 items-center justify-between gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6">
@@ -22,8 +28,8 @@ export const Navbar = () => {
           </Button>
         </SheetTrigger>
         <SheetContent side="left" className="flex flex-col">
-          <nav className="grid w-full gap-2 text-lg font-medium">
-            <Link href={"/"} className="mb-5 w-fit">
+          <nav className="grid w-full gap-2 font-medium">
+            <Link href={"/"} className="mb-5 flex w-fit items-center gap-x-4">
               <Image
                 src={"/logo-masjid.svg"}
                 alt="Logo Masjid Alhidayah"
@@ -31,16 +37,53 @@ export const Navbar = () => {
                 height={200}
                 className="h-20 w-20"
               />
+              <p className="text-sm sm:text-base font-bold">
+                Masjid Jamie Al-Hidayah
+              </p>
             </Link>
             {navItems.map((item) => (
-              <Link
-                key={item.name}
-                href={item.href}
-                className={`mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-sm text-muted-foreground hover:bg-muted hover:text-primary/80 sm:text-base ${router.pathname === item.href ? "bg-muted text-primary" : ""}`}
-              >
-                <item.icon className="h-5 w-5" />
-                {item.name}
-              </Link>
+              <div key={item.name}>
+                {item.collapsible ? (
+                  <Collapsible
+                    open={isOpen}
+                    onOpenChange={setIsOpen}
+                    className="mx-[-0.65rem]"
+                  >
+                    <CollapsibleTrigger className="flex w-full items-center rounded-xl px-3 py-2 text-sm text-muted-foreground hover:bg-muted hover:text-primary/80 sm:text-base">
+                      <div className="flex w-full items-center justify-between">
+                        <span className="flex items-center gap-x-3">
+                          <item.icon className="h-5 w-5" />
+                          {item.name}
+                        </span>
+                        <ChevronDown
+                          className={`h-4 w-4 transition-transform ${isOpen ? "rotate-180" : ""}`}
+                        />
+                      </div>
+                    </CollapsibleTrigger>
+                    <CollapsibleContent className="ml-5 flex flex-col gap-y-2 text-lg font-medium">
+                      {item.subItems?.map((subItem) => (
+                        <Link
+                          key={subItem.subName}
+                          href={subItem.subHref}
+                          className={`flex items-center rounded-xl p-1 text-sm text-muted-foreground hover:bg-muted hover:text-primary/80 ${router.pathname === subItem.subHref ? "bg-muted text-primary" : ""}`}
+                        >
+                          <subItem.subIcon className="h-5 w-5" />
+                          {subItem.subName}
+                        </Link>
+                      ))}
+                    </CollapsibleContent>
+                  </Collapsible>
+                ) : (
+                  <Link
+                    key={item.name}
+                    href={item.href!}
+                    className={`mx-[-0.65rem] flex items-center gap-x-3 rounded-xl px-3 py-2 text-sm text-muted-foreground hover:bg-muted hover:text-primary/80 sm:text-base ${router.pathname === item.href ? "bg-muted text-primary" : ""}`}
+                  >
+                    <item.icon className="h-5 w-5" />
+                    {item.name}
+                  </Link>
+                )}
+              </div>
             ))}
           </nav>
           <div className="mt-auto">
@@ -53,9 +96,9 @@ export const Navbar = () => {
           </div>
         </SheetContent>
       </Sheet>
-      <h1 className="text-center text-sm font-semibold sm:text-lg lg:text-xl">
+      <p className="text-center text-sm font-bold sm:text-lg lg:text-xl">
         Sistem Pengelolaan Zakat Fitrah
-      </h1>
+      </p>
       <ToggleTheme />
     </header>
   );
