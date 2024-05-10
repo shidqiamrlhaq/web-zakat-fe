@@ -71,18 +71,19 @@ export default function ZakatMuzakkiPage() {
                 formName="paidDate"
                 label="Tanggal Bayar*"
               />
-              <FormSelectField
+              <FormInputField
                 form={form}
-                formName="zakatType"
-                label="Jenis Zakat*"
-                placeholder="Masukkan Jenis Zakat"
-                options={ZAKATTYPES}
+                formName="amountMoney"
+                label="Zakat Uang (Rp)"
+                placeholder="Masukkan Jumlah Uang Zakat"
+                type="number"
               />
               <FormInputField
                 form={form}
-                formName="amount"
-                label="Jumlah (Rp/Kg/Liter)*"
-                placeholder="Masukkan Jumlah Zakat"
+                formName="amountRice"
+                label="Zakat Beras (Kg)"
+                placeholder="Masukkan Jumlah Beras Zakat"
+                type="number"
               />
               <FormInputField
                 form={form}
