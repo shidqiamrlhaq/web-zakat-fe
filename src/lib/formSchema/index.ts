@@ -2,18 +2,20 @@ import { z } from "zod";
 
 export const MuzakkiFormSchema = z.object({
   name: z.string({ required_error: "Nama harus diisi!" }),
-  paidDate: z.date({ required_error: "Tanggal bayar harus diisi!" }),
-  amountMoney: z.number().optional(),
-  amountRice: z.number().optional(),
-  address: z.string().optional(),
+  paymentDate: z.date({ required_error: "Tanggal bayar harus diisi!" }),
+  amountMoney: z.coerce.number({ required_error: "Jumlah Uang harus diisi" }),
+  amountRice: z.coerce.number({ required_error: "Jumlah Beras harus diisi" }),
+  notes: z.string().optional(),
+  pengurusName: z.string({ required_error: "Pengurus harus diisi!" }),
 });
 
 export const MustahikFormSchema = z.object({
   name: z.string({ required_error: "Nama harus diisi!" }),
-  dateReceived: z.date({ required_error: "Tanggal terima harus diisi!" }),
-  amountMoney: z.number().optional(),
-  amountRice: z.number().optional(),
-  address: z.string().optional(),
+  distributionDate: z.date({ required_error: "Tanggal terima harus diisi!" }),
+  amountMoney: z.coerce.number({ required_error: "Jumlah Uang harus diisi" }),
+  amountRice: z.coerce.number({ required_error: "Jumlah Beras harus diisi" }),
+  notes: z.string().optional(),
+  pengurusName: z.string({ required_error: "Pengurus harus diisi!" }),
 });
 
 export const DataPengurusFormSchema = z.object({

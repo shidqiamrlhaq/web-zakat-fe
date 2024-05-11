@@ -1,13 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
 
+import { DataTable } from "@/components/organisms";
+import { columns, FormDialog } from "@/components/private/data-pengurus";
 import { Spinner } from "@/components/ui/spinner";
-import { TableCell, TableRow } from "@/components/ui/table";
 import { axiosInstance } from "@/lib/api";
-
-import { columns } from "./_components/Columns";
-import { DataTable } from "./_components/DataTable";
-import { FormDialog } from "./_components/FormDialog";
 
 export default function DataPengurusPage() {
   const { data, isLoading, isError } = useQuery({
