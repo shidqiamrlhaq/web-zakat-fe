@@ -1,4 +1,4 @@
-import React from "react";
+import React, { HTMLInputTypeAttribute } from "react";
 import { z } from "zod";
 
 import {
@@ -13,6 +13,7 @@ import { Input } from "@/components/ui/input";
 type FormInputFieldProps = {
   form: z.infer<any>;
   formName: string;
+  type?: HTMLInputTypeAttribute;
   placeholder?: string;
   isTextArea?: boolean;
   label?: string;
@@ -21,6 +22,7 @@ type FormInputFieldProps = {
 export const FormInputField = ({
   form,
   formName,
+  type = "text",
   placeholder,
   label,
 }: FormInputFieldProps) => {
@@ -32,7 +34,7 @@ export const FormInputField = ({
         <FormItem>
           <FormLabel>{label}</FormLabel>
           <FormControl>
-            <Input placeholder={placeholder} {...field} />
+            <Input placeholder={placeholder} {...field} type={type} />
           </FormControl>
           <FormMessage />
         </FormItem>
