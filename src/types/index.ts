@@ -27,6 +27,19 @@ export type TMuzakki = {
   pengurusName: TPengurus["name"]; // foreign key
 };
 
+export type TInfaq = {
+  id?: number;
+  name: string;
+  date: Date;
+  amountRice: number;
+  amountMoney: number;
+  notes?: string;
+
+  pengurusName: TPengurus["name"]; // foreign key
+};
+
+export type TCreateInfaq = Omit<TInfaq, "id">;
+
 export type TCreateMustahik = Omit<TMustahik, "id">;
 
 export type TCreateMuzakki = Omit<TMuzakki, "id">;

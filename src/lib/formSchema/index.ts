@@ -18,6 +18,15 @@ export const MustahikFormSchema = z.object({
   pengurusName: z.string({ required_error: "Pengurus harus diisi!" }),
 });
 
+export const InfaqFormSchema = z.object({
+  name: z.string({ required_error: "Nama harus diisi!" }),
+  date: z.date({ required_error: "Tanggal harus diisi!" }),
+  amountMoney: z.coerce.number({ required_error: "Jumlah Uang harus diisi" }),
+  amountRice: z.coerce.number({ required_error: "Jumlah Beras harus diisi" }),
+  notes: z.string().optional(),
+  pengurusName: z.string({ required_error: "Pengurus harus diisi!" }),
+});
+
 export const DataPengurusFormSchema = z.object({
   name: z.string({ required_error: "Nama harus diisi!" }),
   DoB: z.date({ required_error: "Tanggal lahir harus diisi!" }),
