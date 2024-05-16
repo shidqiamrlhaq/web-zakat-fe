@@ -23,7 +23,7 @@ export default function InfaqPage() {
           <p>Tidak ada data</p>
         </div>
       )}
-      {data && <DataTable columns={columns} data={data} />}
+      {data && <DataTable columns={columns} data={data.munfiq} />}
     </div>
   );
 }

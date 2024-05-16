@@ -23,7 +23,7 @@ export default function ZakatMuzakkiPage() {
           <p>Tidak ada data</p>
         </div>
       )}
-      {data && <DataTable columns={columns} data={data} />}
+      {data && <DataTable columns={columns} data={data.mustahik} />}
     </div>
   );
 }
