@@ -127,13 +127,6 @@ export const FormDialog = () => {
             />
             <FormInputField
               form={form}
-              formName="amountRice"
-              label="Jumlah Beras (Kg)*"
-              placeholder="Masukkan Jumlah Beras"
-              type="number"
-            />
-            <FormInputField
-              form={form}
               formName="notes"
               label="Keterangan"
               placeholder="Masukkan Keterangan"

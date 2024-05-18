@@ -35,10 +35,6 @@ export const columns: ColumnDef<TInfaq>[] = [
     header: "Jumlah Uang (Rp)",
   },
   {
-    accessorKey: "amountRice",
-    header: "Jumlah Beras (Kg)",
-  },
-  {
     accessorKey: "notes",
     header: "Keterangan",
     cell: ({ row }) => {

@@ -1,6 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
-import React from "react";
+import { Printer } from "lucide-react";
+import React, { useRef, useState } from "react";
+import { useReactToPrint } from "react-to-print";
 
+import { Button } from "@/components/ui/button";
 import {
   Select,
   SelectContent,
@@ -10,10 +13,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Spinner } from "@/components/ui/spinner";
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableFooter,
   TableHead,
@@ -24,33 +27,24 @@ import { axiosInstance } from "@/lib/api";
 import { formatToRupiah } from "@/lib/utils";
 
 export default function LaporanPage() {
-  const { data: dataPengurus } = useQuery({
-    queryKey: ["data-pengurus"],
+  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
+
+  const { data, isLoading, isRefetching, isError, error } = useQuery({
+    queryKey: ["laporan", selectedYear],
     queryFn: async () => {
-      const { data: response } = await axiosInstance.get("/data-pengurus");
+      const { data: response } = await axiosInstance.get("/laporan", {
+        params: {
+          year: selectedYear,
+        },
+      });
+
       return response.data;
     },
   });
-  const { data: dataMuzakki } = useQuery({
-    queryKey: ["muzakki"],
-    queryFn: async () => {
-      const { data: response } = await axiosInstance.get("/muzakki");
-      return response.data;
-    },
-  });
-  const { data: dataMustahik } = useQuery({
-    queryKey: ["mustahik"],
-    queryFn: async () => {
-      const { data: response } = await axiosInstance.get("/mustahik");
-      return response.data;
-    },
-  });
-  const { data: dataInfaq } = useQuery({
-    queryKey: ["infaq"],
-    queryFn: async () => {
-      const { data: response } = await axiosInstance.get("/infaq");
-      return response.data;
-    },
+
+  const componentRef = useRef();
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current as any,
   });
 
   const getYearsBefore = () => {
@@ -65,192 +59,184 @@ export default function LaporanPage() {
     return years;
   };
 
-  const totalPengurus = dataPengurus?.length;
+  const handleYearChange = (e: any) => {
+    setSelectedYear(e);
+  };
 
-  const totalMoneyMuzakki = dataMuzakki?.totalMoney?._sum?.amountMoney;
-  const muzakkiByMoney = dataMuzakki?.totalMoney?._count?.amountMoney;
-  const totalRiceMuzakki = dataMuzakki?.totalRice?._sum?.amountRice;
-  const muzakkiByRice = dataMuzakki?.totalRice?._count?.amountRice;
-  const totalMuzakki = muzakkiByMoney + muzakkiByRice;
-  const MONEYFORAMIL = totalMoneyMuzakki * 0.05; // pengurus dapat 5% dari total penerimaan zakat
-  const formatRice = totalRiceMuzakki * 0.05; // pengurus dapat 5% dari total penerimaan zakat
-  const RICEFORAMIL = Math.floor(formatRice * 100) / 100; // pengurus dapat 5% dari total penerimaan zakat
-
-  const totalMoneyMustahik = dataMustahik?.totalMoney?._sum?.amountMoney;
-  const mustahikByMoney = dataMustahik?.totalMoney?._count?.amountMoney;
-  const totalRiceMustahik = dataMustahik?.totalRice?._sum?.amountRice;
-  const mustahikByRice = dataMustahik?.totalRice?._count?.amountRice;
-  const totalMustahik = mustahikByMoney + mustahikByRice;
-
-  const totalMoneyInfaq = dataInfaq?.totalMoney?._sum?.amountMoney;
-  const infaqByMoney = dataInfaq?.totalMoney?._count?.amountMoney;
-  const totalRiceInfaq = dataInfaq?.totalRice?._sum?.amountRice;
-  const infaqByRice = dataInfaq?.totalRice?._count?.amountRice;
-  const totalMunfiq = infaqByMoney + infaqByRice;
-
-  const totalPenerimaanMoney = totalMoneyMuzakki + totalMoneyInfaq;
-  const totalPenerimaanRice = totalRiceMuzakki + totalRiceInfaq;
-  const totalDonatur = totalMuzakki + totalMunfiq;
-  const totalPenyaluran = totalMustahik + totalPengurus;
-  const totalPenyaluranMoney = MONEYFORAMIL + totalMoneyMustahik;
-  const totalPenyaluranRice = RICEFORAMIL + totalRiceMustahik;
-
-  const saldoMoney = totalPenerimaanMoney - totalPenyaluranMoney;
-  const saldoRice = totalPenerimaanRice - totalPenyaluranRice;
+  if (isLoading) return <Spinner />;
+  if (isRefetching) return <Spinner />;
 
   return (
-    <div className="flex w-full flex-col gap-y-2">
-      <Select>
-        <SelectTrigger className="w-[180px]">
-          <SelectValue placeholder="Pilih tahun" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectGroup>
-            <SelectLabel>Tahun</SelectLabel>
-            <SelectItem value="all">Semua</SelectItem>
-            {getYearsBefore().map((year) => (
-              <SelectItem key={year} value={String(year)}>
-                {year}
-              </SelectItem>
-            ))}
-          </SelectGroup>
-        </SelectContent>
-      </Select>
-
-      <Table className="w-full uppercase">
-        <TableCaption>Tabel Penerimaan Zakat</TableCaption>
-        <TableHeader>
-          <TableRow>
-            <TableHead className="w-10 text-center">No.</TableHead>
-            <TableHead className="text-center" colSpan={2}>
-              Keterangan
-            </TableHead>
-            <TableHead className="text-center" colSpan={3}>
-              Jumlah
-            </TableHead>
-          </TableRow>
-        </TableHeader>
-        {/* Penerimaan Zakat */}
-        <TableBody>
-          <TableRow className="font-bold">
-            <TableCell className="text-center">A</TableCell>
-            <TableCell>Penerimaan Zakat</TableCell>
-            <TableCell>Muzakki</TableCell>
-            <TableCell>Uang</TableCell>
-            <TableCell>Beras</TableCell>
-          </TableRow>
-          <TableRow className="">
-            <TableCell className="text-center">1</TableCell>
-            <TableCell>Uang</TableCell>
-            <TableCell>{muzakkiByMoney}</TableCell>
-            <TableCell className="capitalize">
-              {formatToRupiah(totalMoneyMuzakki)}
-            </TableCell>
-            <TableCell className="capitalize"></TableCell>
-          </TableRow>
-          <TableRow className="">
-            <TableCell className="text-center">2</TableCell>
-            <TableCell>Beras</TableCell>
-            <TableCell>{muzakkiByRice}</TableCell>
-            <TableCell className="capitalize"></TableCell>
-            <TableCell className="capitalize">{totalRiceMuzakki} Kg</TableCell>
-          </TableRow>
-        </TableBody>
-        {/* Penerimaan Infaq */}
-        <TableBody>
-          <TableRow className="font-bold">
-            <TableCell className="text-center">B</TableCell>
-            <TableCell>Penerimaan Infaq</TableCell>
-            <TableCell>Munfiq</TableCell>
-            <TableCell>Uang</TableCell>
-            <TableCell>Beras</TableCell>
-          </TableRow>
-          <TableRow className="">
-            <TableCell className="text-center">1</TableCell>
-            <TableCell>Uang</TableCell>
-            <TableCell>{infaqByMoney}</TableCell>
-            <TableCell className="capitalize">
-              {formatToRupiah(totalMoneyInfaq)}
-            </TableCell>
-            <TableCell className="capitalize"></TableCell>
-          </TableRow>
-          <TableRow className="">
-            <TableCell className="text-center">2</TableCell>
-            <TableCell>Beras</TableCell>
-            <TableCell>{infaqByRice}</TableCell>
-            <TableCell className="capitalize"></TableCell>
-            <TableCell className="capitalize">
-              {totalRiceInfaq ? totalRiceInfaq : 0} Kg
-            </TableCell>
-          </TableRow>
-        </TableBody>
-        {/* Total Penerimaan */}
-        <TableBody className="border-t bg-muted/50 [&>tr]:last:border-b-0">
-          <TableRow className="font-bold">
-            <TableCell colSpan={2}>Total Penerimaan</TableCell>
-            <TableCell>{totalDonatur}</TableCell>
-            <TableCell className="capitalize">
-              {formatToRupiah(totalPenerimaanMoney)}
-            </TableCell>
-            <TableCell className="capitalize">{totalPenerimaanRice} Kg</TableCell>
-          </TableRow>
-        </TableBody>
-        <div className="mb-5" />
-        {/* Tabel Penyaluran */}
-        <TableBody>
-          <TableRow className="font-bold">
-            <TableCell className="text-center">C</TableCell>
-            <TableCell>Penyaluran</TableCell>
-            <TableCell>Mustahik</TableCell>
-            <TableCell>Uang</TableCell>
-            <TableCell>Beras</TableCell>
-          </TableRow>
-          <TableRow className="">
-            <TableCell className="text-center">1</TableCell>
-            <TableCell>Fakir Miskin & Fisabilillah</TableCell>
-            <TableCell>{totalMustahik}</TableCell>
-            <TableCell className="capitalize">
-              {formatToRupiah(totalMoneyMustahik)}
-            </TableCell>
-            <TableCell className="capitalize">{mustahikByRice} Kg</TableCell>
-          </TableRow>
-          <TableRow className="">
-            <TableCell className="text-center">2</TableCell>
-            <TableCell>Amil</TableCell>
-            <TableCell>{totalPengurus}</TableCell>
-            <TableCell className="capitalize">
-              {formatToRupiah(MONEYFORAMIL)}
-            </TableCell>
-            <TableCell className="capitalize">
-              {RICEFORAMIL ? RICEFORAMIL : 0} Kg
-            </TableCell>
-          </TableRow>
-        </TableBody>
-        {/* Total Penyaluran */}
-        <TableBody className="border-t bg-muted/50 [&>tr]:last:border-b-0">
-          <TableRow className="font-bold">
-            <TableCell colSpan={2}>Total Penyaluran</TableCell>
-            <TableCell>{totalPenyaluran}</TableCell>
-            <TableCell className="capitalize">
-              {formatToRupiah(totalPenyaluranMoney)}
-            </TableCell>
-            <TableCell className="capitalize">
-              {totalPenyaluranRice} Kg
-            </TableCell>
-          </TableRow>
-        </TableBody>
-        <div className="mb-5" />
-        <TableBody className="border-t bg-muted/50 [&>tr]:last:border-b-0">
-          <TableRow className="font-bold">
-            <TableCell colSpan={2}>Total Saldo</TableCell>
-            <TableCell></TableCell>
-            <TableCell className="capitalize">
-              {formatToRupiah(saldoMoney)}
-            </TableCell>
-            <TableCell className="capitalize">{saldoRice} Kg</TableCell>
-          </TableRow>
-        </TableBody>
-      </Table>
+    <div className="flex flex-col gap-y-4">
+      <div className="flex w-full justify-between">
+        <Select
+          value={selectedYear.toString()}
+          onValueChange={handleYearChange}
+        >
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Pilih tahun" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectLabel>Tahun</SelectLabel>
+              {getYearsBefore().map((year) => (
+                <SelectItem key={year} value={String(year)}>
+                  {year}
+                </SelectItem>
+              ))}
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+        <Button onClick={handlePrint}>
+          <Printer className="mr-2 h-5 w-5" />
+          Cetak
+        </Button>
+      </div>
+      <div className="flex flex-col gap-y-8" ref={componentRef as any}>
+        <div className="mt-4 w-full text-center text-sm font-bold uppercase sm:text-base lg:text-xl">
+          <h3>Laporan Zakat Fitrah</h3>
+          <p>Masjid Jamie Al-Hidayah Narongtong</p>
+          <p>Jatinangor, Sumedang</p>
+          <p>Tahun {selectedYear}</p>
+        </div>
+        {isError && (
+          <div className="w-full text-center text-red-500">
+            {(error as any).message}
+          </div>
+        )}
+        {data && (
+          <Table className="w-full uppercase">
+            <TableHeader className="border bg-muted/50 [&>tr]:last:border-b-0">
+              <TableRow>
+                <TableHead className="w-10 text-center">No.</TableHead>
+                <TableHead className="text-center" colSpan={2}>
+                  Keterangan
+                </TableHead>
+                <TableHead className="text-center" colSpan={3}>
+                  Jumlah
+                </TableHead>
+              </TableRow>
+            </TableHeader>
+            {/* Penerimaan Zakat */}
+            <TableBody>
+              <TableRow className="font-bold">
+                <TableCell className="text-center">A</TableCell>
+                <TableCell>Penerimaan Zakat</TableCell>
+                <TableCell>Muzakki</TableCell>
+                <TableCell>Uang</TableCell>
+                <TableCell>Beras</TableCell>
+              </TableRow>
+              <TableRow className="">
+                <TableCell className="text-center">1</TableCell>
+                <TableCell>Uang</TableCell>
+                <TableCell>{data.penerimaan.muzakki.uang.pembayar}</TableCell>
+                <TableCell className="capitalize">
+                  {formatToRupiah(data.penerimaan.muzakki.uang.total)}
+                </TableCell>
+                <TableCell className="capitalize"></TableCell>
+              </TableRow>
+              <TableRow className="">
+                <TableCell className="text-center">2</TableCell>
+                <TableCell>Beras</TableCell>
+                <TableCell>{data.penerimaan.muzakki.beras.pembayar}</TableCell>
+                <TableCell className="capitalize"></TableCell>
+                <TableCell className="capitalize">
+                  {data.penerimaan.muzakki.beras.total} Kg
+                </TableCell>
+              </TableRow>
+            </TableBody>
+            {/* Penerimaan Infaq */}
+            <TableBody>
+              <TableRow className="font-bold">
+                <TableCell className="text-center">B</TableCell>
+                <TableCell>Penerimaan Infaq</TableCell>
+                <TableCell>Munfiq</TableCell>
+                <TableCell>Uang</TableCell>
+                <TableCell>Beras</TableCell>
+              </TableRow>
+              <TableRow className="">
+                <TableCell className="text-center">1</TableCell>
+                <TableCell>Uang</TableCell>
+                <TableCell>{data.penerimaan.munfiq.total}</TableCell>
+                <TableCell className="capitalize">
+                  {formatToRupiah(data.penerimaan.munfiq.uang.total)}
+                </TableCell>
+                <TableCell className="capitalize"></TableCell>
+              </TableRow>
+            </TableBody>
+            {/* Total Penerimaan */}
+            <TableBody className="border-t bg-muted/50 [&>tr]:last:border-b-0">
+              <TableRow className="font-bold">
+                <TableCell colSpan={2}>Total Penerimaan</TableCell>
+                <TableCell>{data.penerimaan.total.pembayar}</TableCell>
+                <TableCell className="capitalize">
+                  {formatToRupiah(data.penerimaan.total.uang)}
+                </TableCell>
+                <TableCell className="capitalize">
+                  {data.penerimaan.total.beras} Kg
+                </TableCell>
+              </TableRow>
+            </TableBody>
+            {/* Tabel Penyaluran */}
+            <TableBody>
+              <TableRow className="font-bold">
+                <TableCell className="text-center">C</TableCell>
+                <TableCell>Penyaluran</TableCell>
+                <TableCell>Mustahik</TableCell>
+                <TableCell>Uang</TableCell>
+                <TableCell>Beras</TableCell>
+              </TableRow>
+              <TableRow className="">
+                <TableCell className="text-center">1</TableCell>
+                <TableCell>Fakir Miskin & Fisabilillah</TableCell>
+                <TableCell>{data.penyaluran.mustahik.total}</TableCell>
+                <TableCell className="capitalize">
+                  {formatToRupiah(data.penyaluran.mustahik.uang.total)}
+                </TableCell>
+                <TableCell className="capitalize">
+                  {data.penyaluran.mustahik.beras.total} Kg
+                </TableCell>
+              </TableRow>
+              <TableRow className="">
+                <TableCell className="text-center">2</TableCell>
+                <TableCell>Amil</TableCell>
+                <TableCell>{data.penyaluran.pengurus.total}</TableCell>
+                <TableCell className="capitalize">
+                  {formatToRupiah(data.penyaluran.pengurus.uang.total)}
+                </TableCell>
+                <TableCell className="capitalize">
+                  {data.penyaluran.pengurus.beras.total} Kg
+                </TableCell>
+              </TableRow>
+            </TableBody>
+            {/* Total Penyaluran */}
+            <TableBody className="border-t bg-muted/50 [&>tr]:last:border-b-0">
+              <TableRow className="font-bold">
+                <TableCell colSpan={2}>Total Penyaluran</TableCell>
+                <TableCell>{data.penyaluran.total.penerima}</TableCell>
+                <TableCell className="capitalize">
+                  {formatToRupiah(data.penyaluran.total.uang)}
+                </TableCell>
+                <TableCell className="capitalize">
+                  {data.penyaluran.total.beras} Kg
+                </TableCell>
+              </TableRow>
+            </TableBody>
+            <TableFooter>
+              <TableRow className="font-bold">
+                <TableCell colSpan={2}>Total Saldo</TableCell>
+                <TableCell></TableCell>
+                <TableCell className="capitalize">
+                  {formatToRupiah(data.totalSaldoUang)}
+                </TableCell>
+                <TableCell className="capitalize">
+                  {data.totalSaldoBeras} Kg
+                </TableCell>
+              </TableRow>
+            </TableFooter>
+          </Table>
+        )}
+      </div>
     </div>
   );
 }
