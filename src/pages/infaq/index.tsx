@@ -1,15 +1,15 @@
 import { useQuery } from "@tanstack/react-query";
 
 import { DataTable } from "@/components/organisms";
-import { columns, FormDialog } from "@/components/private/muzakki";
+import { columns, FormDialog } from "@/components/private/infaq";
 import { Spinner } from "@/components/ui/spinner";
 import { axiosInstance } from "@/lib/api";
 
-export default function ZakatMuzakkiPage() {
+export default function InfaqPage() {
   const { data, isLoading, isError } = useQuery({
-    queryKey: ["muzakki"],
+    queryKey: ["infaq"],
     queryFn: async () => {
-      const { data: response } = await axiosInstance.get("/muzakki");
+      const { data: response } = await axiosInstance.get("/infaq");
       return response.data;
     },
   });
@@ -23,7 +23,7 @@ export default function ZakatMuzakkiPage() {
           <p>Tidak ada data</p>
         </div>
       )}
-      {data && <DataTable columns={columns} data={data.muzakki} />}
+      {data && <DataTable columns={columns} data={data.munfiq} />}
     </div>
   );
 }

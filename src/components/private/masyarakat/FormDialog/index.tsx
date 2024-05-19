@@ -23,60 +23,47 @@ import {
 } from "@/components/ui/dialog";
 import { Form } from "@/components/ui/form";
 import { axiosInstance } from "@/lib/api";
-import { MuzakkiFormSchema } from "@/lib/formSchema";
-import { TCreateMuzakki } from "@/types";
+import { MasyarakatFormSchema } from "@/lib/formSchema";
+import { TCreateMasyarakat, typeMasyarakat } from "@/types";
 
 export const FormDialog = () => {
   const queryClient = useQueryClient();
-  const form = useForm<z.infer<typeof MuzakkiFormSchema>>({
-    resolver: zodResolver(MuzakkiFormSchema),
+  const form = useForm<z.infer<typeof MasyarakatFormSchema>>({
+    resolver: zodResolver(MasyarakatFormSchema),
   });
 
-  const addMuzakki = async (values: TCreateMuzakki) => {
-    const { data: response } = await axiosInstance.post("/muzakki", values);
+  const addMasyarakat = async (values: TCreateMasyarakat) => {
+    const { data: response } = await axiosInstance.post("/masyarakat", values);
     return response.data;
   };
 
   const { mutate, isPending } = useMutation({
-    mutationFn: addMuzakki,
+    mutationFn: addMasyarakat,
     onSuccess: () => {
-      toast.success("Berhasil Menambahkan Data Pembayaran Zakat");
-      queryClient.invalidateQueries({ queryKey: ["muzakki"] });
+      toast.success("Berhasil Menambahkan Data Masyarakat");
+      queryClient.invalidateQueries({ queryKey: ["masyarakat"] });
     },
     onError: (err: any) => {
-      toast.error("Gagal Menambahkan Data Pembayaran Zakat", {
+      toast.error("Gagal Menambahkan Data Masyarakat", {
         description: err.response.data.message,
       });
     },
   });
 
-  function onSubmit(values: z.infer<typeof MuzakkiFormSchema>) {
+  function onSubmit(values: z.infer<typeof MasyarakatFormSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
-    const newMuzakki = {
+    const newMasyarakat = {
       ...values,
     };
 
-    mutate(newMuzakki);
+    mutate(newMasyarakat);
   }
-
-  const {
-    data: dataPengurus,
-    isLoading,
-    isError,
-  } = useQuery({
-    queryKey: ["data-pengurus"],
-    queryFn: async () => {
-      const { data: response } = await axiosInstance.get("/data-pengurus");
-      return response.data;
-    },
-    // initialData: () => queryClient.getQueryData(["data-pengurus"]),
-  });
 
   return (
     <Dialog>
       <div className="flex w-full items-center justify-between border-b p-4">
-        <h2 className="font-semibold lg:text-2xl">Penerimaan Zakat Fitrah</h2>
+        <h2 className="font-semibold lg:text-2xl">Data Masyarakat</h2>
         <DialogTrigger asChild>
           <Button size={"sm"}>
             <PlusIcon size={18} />
@@ -86,9 +73,7 @@ export const FormDialog = () => {
       </div>
       <DialogContent className="sm:max-w-xl">
         <DialogHeader>
-          <DialogTitle className="text-center">
-            Penerimaan Zakat Fitrah
-          </DialogTitle>
+          <DialogTitle className="text-center">Data Masyarakat</DialogTitle>
           <DialogDescription>* Harus Diisi</DialogDescription>
         </DialogHeader>
         <Form {...form}>
@@ -96,47 +81,47 @@ export const FormDialog = () => {
             onSubmit={form.handleSubmit(onSubmit)}
             className="max-h-96 w-full space-y-2 overflow-auto px-2"
           >
-            <FormCalendarField
-              form={form}
-              formName="paymentDate"
-              label="Tanggal Penerimaan*"
-            />
             <FormInputField
               form={form}
               formName="name"
-              label="Nama Muzakki*"
-              placeholder="Masukkan Nama Muzakki"
+              label="Nama*"
+              placeholder="Masukkan Nama Lengkap"
             />
             <FormSelectField
               form={form}
-              formName="pengurusName"
-              label="Nama Pengurus*"
-              placeholder="Pilih Nama Pengurus"
-              options={
-                !dataPengurus
-                  ? []
-                  : dataPengurus.map((item: { name: string }) => item.name)
-              }
+              formName="type"
+              label="Golongan Masyarakat*"
+              placeholder="Pilih Golongan Masyarakat"
+              options={[typeMasyarakat.MUZAKKI, typeMasyarakat.MUSTAHIK]}
             />
             <FormInputField
               form={form}
-              formName="amountMoney"
-              label="Jumlah Uang (Rp)*"
-              placeholder="Masukkan Jumlah Uang"
-              type="number"
+              formName="PoB"
+              label="Tempat Lahir"
+              placeholder="Masukkan Tempat Lahir"
+            />
+            <FormCalendarField
+              form={form}
+              formName="DoB"
+              label="Tanggal Lahir"
             />
             <FormInputField
               form={form}
-              formName="amountRice"
-              label="Jumlah Beras (Kg)*"
-              placeholder="Masukkan Jumlah Beras"
-              type="number"
+              formName="job"
+              label="Pekerjaan"
+              placeholder="Masukkan Pekerjaan"
             />
             <FormInputField
               form={form}
-              formName="notes"
-              label="Keterangan"
-              placeholder="Masukkan Keterangan"
+              formName="phone"
+              label="Nomor Telepon"
+              placeholder="Masukkan Nomor Telepon"
+            />
+            <FormInputField
+              form={form}
+              formName="address"
+              label="Alamat"
+              placeholder="Masukkan Alamat"
             />
             <DialogFooter>
               <Button

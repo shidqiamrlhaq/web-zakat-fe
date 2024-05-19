@@ -3,28 +3,28 @@ import { formatDate } from "date-fns";
 import { id } from "date-fns/locale";
 
 import { TableActions } from "@/components/molecules";
-import { TMuzakki } from "@/types";
+import { TInfaq } from "@/types";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 
-export const columns: ColumnDef<TMuzakki>[] = [
+export const columns: ColumnDef<TInfaq>[] = [
   {
     accessorKey: "id",
     header: "ID",
   },
   {
-    accessorKey: "paymentDate",
+    accessorKey: "date",
     header: "Tanggal Penerimaan",
     cell: ({ row }) => {
-      return formatDate(row.getValue("paymentDate") as Date, "PPP", {
+      return formatDate(row.getValue("date") as Date, "PPP", {
         locale: id,
       });
     },
   },
   {
-    accessorKey: "muzakkiName",
-    header: "Nama Muzakki",
+    accessorKey: "name",
+    header: "Nama Munfiq",
   },
   {
     accessorKey: "pengurusName",
@@ -35,19 +35,18 @@ export const columns: ColumnDef<TMuzakki>[] = [
     header: "Jumlah Uang (Rp)",
   },
   {
-    accessorKey: "amountRice",
-    header: "Jumlah Beras (Kg)",
-  },
-  {
     accessorKey: "notes",
     header: "Keterangan",
+    cell: ({ row }) => {
+      return row.getValue("notes") || "-";
+    },
   },
   {
     id: "actions",
     cell: ({ row }) => {
       const pengurus = row.original;
 
-      return <TableActions id={pengurus.id!} keyUrl="muzakki" />;
+      return <TableActions id={pengurus.id!} keyUrl="infaq" />;
     },
   },
 ];

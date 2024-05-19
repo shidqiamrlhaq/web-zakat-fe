@@ -1,4 +1,12 @@
-import { Dot, HandCoins, Home, NotebookText, Users } from "lucide-react";
+import {
+  Dot,
+  HandCoins,
+  HeartHandshake,
+  Home,
+  NotebookText,
+  Users,
+  UsersRound,
+} from "lucide-react";
 
 export const navItems = [
   { name: "Beranda", href: "/", icon: Home, collapsible: false },
@@ -8,24 +16,31 @@ export const navItems = [
     collapsible: true,
     subItems: [
       {
-        subName: "Muzakki",
+        subName: "Pembayar (Muzakki)",
         subHref: "/muzakki",
         subIcon: Dot,
       },
       {
-        subName: "Mustahik",
+        subName: "Penerima (Mustahik)",
         subHref: "/mustahik",
         subIcon: Dot,
       },
     ],
   },
-  { name: "Laporan", href: "/laporan", icon: NotebookText, collapsible: false },
+  { name: "Infaq", href: "/infaq", icon: HeartHandshake, collapsible: false },
   {
-    name: "Data Pengurus",
-    href: "/data-pengurus",
+    name: "Data Masyarakat",
+    href: "/masyarakat",
     icon: Users,
     collapsible: false,
   },
+  {
+    name: "Data Pengurus",
+    href: "/data-pengurus",
+    icon: UsersRound,
+    collapsible: false,
+  },
+  { name: "Laporan", href: "/laporan", icon: NotebookText, collapsible: false },
 ];
 
 export const ZAKATTYPES = [

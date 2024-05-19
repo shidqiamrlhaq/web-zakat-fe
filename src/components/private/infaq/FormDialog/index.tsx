@@ -23,41 +23,41 @@ import {
 } from "@/components/ui/dialog";
 import { Form } from "@/components/ui/form";
 import { axiosInstance } from "@/lib/api";
-import { MuzakkiFormSchema } from "@/lib/formSchema";
-import { TCreateMuzakki } from "@/types";
+import { InfaqFormSchema } from "@/lib/formSchema";
+import { TCreateInfaq } from "@/types";
 
 export const FormDialog = () => {
   const queryClient = useQueryClient();
-  const form = useForm<z.infer<typeof MuzakkiFormSchema>>({
-    resolver: zodResolver(MuzakkiFormSchema),
+  const form = useForm<z.infer<typeof InfaqFormSchema>>({
+    resolver: zodResolver(InfaqFormSchema),
   });
 
-  const addMuzakki = async (values: TCreateMuzakki) => {
-    const { data: response } = await axiosInstance.post("/muzakki", values);
+  const addInfaq = async (values: TCreateInfaq) => {
+    const { data: response } = await axiosInstance.post("/infaq", values);
     return response.data;
   };
 
   const { mutate, isPending } = useMutation({
-    mutationFn: addMuzakki,
+    mutationFn: addInfaq,
     onSuccess: () => {
-      toast.success("Berhasil Menambahkan Data Pembayaran Zakat");
-      queryClient.invalidateQueries({ queryKey: ["muzakki"] });
+      toast.success("Berhasil Menambahkan Data Infaq");
+      queryClient.invalidateQueries({ queryKey: ["infaq"] });
     },
     onError: (err: any) => {
-      toast.error("Gagal Menambahkan Data Pembayaran Zakat", {
+      toast.error("Gagal Menambahkan Data Infaq", {
         description: err.response.data.message,
       });
     },
   });
 
-  function onSubmit(values: z.infer<typeof MuzakkiFormSchema>) {
+  function onSubmit(values: z.infer<typeof InfaqFormSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
-    const newMuzakki = {
+    const newInfaq = {
       ...values,
     };
 
-    mutate(newMuzakki);
+    mutate(newInfaq);
   }
 
   const {
@@ -76,7 +76,7 @@ export const FormDialog = () => {
   return (
     <Dialog>
       <div className="flex w-full items-center justify-between border-b p-4">
-        <h2 className="font-semibold lg:text-2xl">Penerimaan Zakat Fitrah</h2>
+        <h2 className="font-semibold lg:text-2xl">Penerimaan Infaq</h2>
         <DialogTrigger asChild>
           <Button size={"sm"}>
             <PlusIcon size={18} />
@@ -87,7 +87,7 @@ export const FormDialog = () => {
       <DialogContent className="sm:max-w-xl">
         <DialogHeader>
           <DialogTitle className="text-center">
-            Penerimaan Zakat Fitrah
+            Penerimaan Infaq
           </DialogTitle>
           <DialogDescription>* Harus Diisi</DialogDescription>
         </DialogHeader>
@@ -98,14 +98,14 @@ export const FormDialog = () => {
           >
             <FormCalendarField
               form={form}
-              formName="paymentDate"
+              formName="date"
               label="Tanggal Penerimaan*"
             />
             <FormInputField
               form={form}
               formName="name"
-              label="Nama Muzakki*"
-              placeholder="Masukkan Nama Muzakki"
+              label="Nama Munfiq*"
+              placeholder="Masukkan Nama Munfiq"
             />
             <FormSelectField
               form={form}
@@ -123,13 +123,6 @@ export const FormDialog = () => {
               formName="amountMoney"
               label="Jumlah Uang (Rp)*"
               placeholder="Masukkan Jumlah Uang"
-              type="number"
-            />
-            <FormInputField
-              form={form}
-              formName="amountRice"
-              label="Jumlah Beras (Kg)*"
-              placeholder="Masukkan Jumlah Beras"
               type="number"
             />
             <FormInputField
