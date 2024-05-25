@@ -18,6 +18,11 @@ export const Navbar = () => {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
 
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    router.push("/login");
+  };
+
   return (
     <header className="flex h-14 items-center justify-between gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6">
       <Sheet>
@@ -37,7 +42,7 @@ export const Navbar = () => {
                 height={200}
                 className="h-20 w-20"
               />
-              <p className="text-sm sm:text-base font-bold">
+              <p className="text-sm font-bold sm:text-base">
                 Masjid Jamie Al-Hidayah
               </p>
             </Link>
@@ -90,6 +95,7 @@ export const Navbar = () => {
             <Button
               size="sm"
               className="w-full hover:bg-destructive hover:text-white"
+              onClick={handleLogout}
             >
               Logout
             </Button>
