@@ -1,23 +1,29 @@
-import { useQuery } from "@tanstack/react-query";
-
+import { SelectYear } from "@/components/molecules";
 import { DataTable } from "@/components/organisms";
 import { columns, FormDialog } from "@/components/private/mustahik";
 import { Spinner } from "@/components/ui/spinner";
-import { axiosInstance } from "@/lib/api";
+import { useFetchByYear } from "@/hooks";
 
-export default function ZakatMuzakkiPage() {
-  const { data, isLoading, isError } = useQuery({
-    queryKey: ["mustahik"],
-    queryFn: async () => {
-      const { data: response } = await axiosInstance.get("/mustahik");
-      return response.data;
-    },
-  });
+export default function ZakatMustahikPage() {
+  const {
+    data,
+    isLoading,
+    isRefetching,
+    isError,
+    error,
+    selectedYear,
+    handleYearChange,
+  } = useFetchByYear("/mustahik");
 
   return (
     <div className="flex w-full flex-col gap-y-2">
       <FormDialog />
+      <SelectYear
+        selectedYear={selectedYear.toString()}
+        handleYearChange={handleYearChange}
+      />
       {isLoading && <Spinner />}
+      {isRefetching && <Spinner />}
       {isError && (
         <div className="w-full">
           <p>Tidak ada data</p>
