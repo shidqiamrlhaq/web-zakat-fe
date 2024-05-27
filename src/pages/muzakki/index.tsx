@@ -34,11 +34,13 @@ export default function ZakatMuzakkiPage() {
       {data && (
         <div className="flex flex-col gap-y-2">
           <DataTable columns={columns} data={data.muzakki} />
-          <div className="rounded-md border p-2 font-semibold">
+          <div className="rounded-md border bg-muted/50 p-2 font-semibold">
             <p>
               Total Penerimaan Uang:{" "}
               {formatToRupiah(data.totalMoney._sum.amountMoney)}
             </p>
+          </div>
+          <div className="rounded-md border bg-muted/50 p-2 font-semibold">
             <p>Total Penerimaan Beras: {data.totalRice._sum.amountRice} Kg</p>
           </div>
         </div>

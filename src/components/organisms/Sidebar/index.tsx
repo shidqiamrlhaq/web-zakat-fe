@@ -1,5 +1,5 @@
 import { jwtDecode } from "jwt-decode";
-import { ChevronDown, NotebookText } from "lucide-react";
+import { ChevronDown, Home, NotebookText } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -99,6 +99,13 @@ export const Sidebar = () => {
             </div>
           ) : (
             <nav className="grid items-start gap-4 px-2 font-medium lg:px-4">
+              <Link
+                href={"/"}
+                className={`flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:bg-muted hover:text-primary/80 lg:text-lg ${router.pathname === "/" ? "bg-muted text-primary" : ""}`}
+              >
+                <Home className="h-5 w-5" />
+                Beranda
+              </Link>
               <Link
                 href={"/laporan"}
                 className={`flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:bg-muted hover:text-primary/80 lg:text-lg ${router.pathname === "/laporan" ? "bg-muted text-primary" : ""}`}
