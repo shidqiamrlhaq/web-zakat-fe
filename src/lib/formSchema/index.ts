@@ -45,3 +45,8 @@ export const DataPengurusFormSchema = z.object({
   DoB: z.date({ required_error: "Tanggal lahir harus diisi!" }),
   address: z.string().optional(),
 });
+
+export const LoginFormSchema = z.object({
+  username: z.string({ required_error: "Username harus diisi!" }),
+  password: z.string({ required_error: "Password harus diisi!" }),
+});

@@ -54,6 +54,11 @@ export enum typeMasyarakat {
   MUSTAHIK = "MUSTAHIK",
 }
 
+export type TLogin = {
+  username: string;
+  password: string;
+};
+
 export type TCreateMasyarakat = Omit<TMasyarakat, "id">;
 
 export type TCreateInfaq = Omit<TInfaq, "id">;

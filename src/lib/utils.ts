@@ -11,3 +11,15 @@ export const formatToRupiah = (value: number) => {
     currency: "IDR",
   });
 };
+
+export const getYearsBefore = () => {
+  const currentYear = new Date().getFullYear();
+  const years: number[] = [];
+  const fromYear = 2020;
+
+  for (let i = currentYear; i >= fromYear; i--) {
+    years.push(i);
+  }
+
+  return years;
+};

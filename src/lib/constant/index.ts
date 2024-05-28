@@ -42,12 +42,3 @@ export const navItems = [
   },
   { name: "Laporan", href: "/laporan", icon: NotebookText, collapsible: false },
 ];
-
-export const ZAKATTYPES = [
-  "Zakat Fitrah",
-  "Zakat Mal",
-  "Zakat Penghasilan",
-  "Zakat Pertanian",
-  "Zakat Perniagaan",
-  "Zakat Hasil Ternak",
-];

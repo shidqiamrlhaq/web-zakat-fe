@@ -1,18 +1,9 @@
-import { useQuery } from "@tanstack/react-query";
 import { Printer } from "lucide-react";
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import { useReactToPrint } from "react-to-print";
 
+import { SelectYear } from "@/components/molecules";
 import { Button } from "@/components/ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Spinner } from "@/components/ui/spinner";
 import {
   Table,
@@ -23,70 +14,35 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { axiosInstance } from "@/lib/api";
+import { useFetchByYear } from "@/hooks";
 import { formatToRupiah } from "@/lib/utils";
 
 export default function LaporanPage() {
-  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
-
-  const { data, isLoading, isRefetching, isError, error } = useQuery({
-    queryKey: ["laporan", selectedYear],
-    queryFn: async () => {
-      const { data: response } = await axiosInstance.get("/laporan", {
-        params: {
-          year: selectedYear,
-        },
-      });
-
-      return response.data;
-    },
-  });
+  const {
+    data,
+    isLoading,
+    isRefetching,
+    isError,
+    error,
+    selectedYear,
+    handleYearChange,
+  } = useFetchByYear("/laporan");
 
   const componentRef = useRef();
   const handlePrint = useReactToPrint({
     content: () => componentRef.current as any,
   });
 
-  const getYearsBefore = () => {
-    const currentYear = new Date().getFullYear();
-    const years: number[] = [];
-    const fromYear = 2020;
-
-    for (let i = currentYear; i >= fromYear; i--) {
-      years.push(i);
-    }
-
-    return years;
-  };
-
-  const handleYearChange = (e: any) => {
-    setSelectedYear(e);
-  };
-
   if (isLoading) return <Spinner />;
   if (isRefetching) return <Spinner />;
 
   return (
     <div className="flex flex-col gap-y-4">
-      <div className="flex w-full justify-between">
-        <Select
-          value={selectedYear.toString()}
-          onValueChange={handleYearChange}
-        >
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Pilih tahun" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectLabel>Tahun</SelectLabel>
-              {getYearsBefore().map((year) => (
-                <SelectItem key={year} value={String(year)}>
-                  {year}
-                </SelectItem>
-              ))}
-            </SelectGroup>
-          </SelectContent>
-        </Select>
+      <div className="flex w-full items-center justify-between">
+        <SelectYear
+          selectedYear={selectedYear.toString()}
+          handleYearChange={handleYearChange}
+        />
         <Button onClick={handlePrint}>
           <Printer className="mr-2 h-5 w-5" />
           Cetak
