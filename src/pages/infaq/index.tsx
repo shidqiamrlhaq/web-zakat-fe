@@ -14,7 +14,7 @@ export default function InfaqPage() {
     error,
     selectedYear,
     handleYearChange,
-  } = useFetchByYear("/infaq");
+  } = useFetchByYear("infaq");
 
   return (
     <div className="flex w-full flex-col gap-y-2">

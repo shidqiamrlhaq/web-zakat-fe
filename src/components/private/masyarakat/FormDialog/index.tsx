@@ -73,7 +73,9 @@ export const FormDialog = () => {
       </div>
       <DialogContent className="sm:max-w-xl">
         <DialogHeader>
-          <DialogTitle className="text-center">Data Masyarakat</DialogTitle>
+          <DialogTitle className="text-center">
+            Tambah Data Masyarakat
+          </DialogTitle>
           <DialogDescription>* Harus Diisi</DialogDescription>
         </DialogHeader>
         <Form {...form}>

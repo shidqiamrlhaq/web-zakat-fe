@@ -87,7 +87,7 @@ export const FormDialog = () => {
       <DialogContent className="sm:max-w-xl">
         <DialogHeader>
           <DialogTitle className="text-center">
-            Penerimaan Zakat Fitrah
+            Tambah Penerimaan Zakat Fitrah
           </DialogTitle>
           <DialogDescription>* Harus Diisi</DialogDescription>
         </DialogHeader>

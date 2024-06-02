@@ -96,6 +96,12 @@ export const FormDialog = () => {
             />
             <FormInputField
               form={form}
+              formName="position"
+              label="Jabatan*"
+              placeholder="Masukkan Jabatan"
+            />
+            <FormInputField
+              form={form}
               formName="address"
               label="Alamat"
               placeholder="Masukkan Alamat"

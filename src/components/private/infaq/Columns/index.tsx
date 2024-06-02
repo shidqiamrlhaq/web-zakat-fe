@@ -5,6 +5,8 @@ import { id } from "date-fns/locale";
 import { TableActions } from "@/components/molecules";
 import { TInfaq } from "@/types";
 
+import { DialogEditForm } from "../DialogEditForm";
+
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 
@@ -46,7 +48,11 @@ export const columns: ColumnDef<TInfaq>[] = [
     cell: ({ row }) => {
       const pengurus = row.original;
 
-      return <TableActions id={pengurus.id!} keyUrl="infaq" />;
+      return (
+        <TableActions id={pengurus.id!} keyUrl="infaq">
+          <DialogEditForm id={pengurus.id!} />
+        </TableActions>
+      );
     },
   },
 ];

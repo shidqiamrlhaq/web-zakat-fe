@@ -13,7 +13,7 @@ export default function HomePage() {
     error,
     selectedYear,
     handleYearChange,
-  } = useFetchByYear("/laporan");
+  } = useFetchByYear("laporan");
 
   const cardItems = [
     {

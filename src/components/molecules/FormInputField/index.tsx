@@ -34,7 +34,12 @@ export const FormInputField = ({
         <FormItem>
           <FormLabel>{label}</FormLabel>
           <FormControl>
-            <Input placeholder={placeholder} {...field} type={type} />
+            <Input
+              placeholder={placeholder}
+              {...field}
+              type={type}
+              onWheelCapture={(e) => e.currentTarget.blur()}
+            />
           </FormControl>
           <FormMessage />
         </FormItem>

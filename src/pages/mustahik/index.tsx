@@ -14,7 +14,7 @@ export default function ZakatMustahikPage() {
     error,
     selectedYear,
     handleYearChange,
-  } = useFetchByYear("/mustahik");
+  } = useFetchByYear("mustahik");
 
   return (
     <div className="flex w-full flex-col gap-y-2">

@@ -43,6 +43,7 @@ export const MasyarakatFormSchema = z.object({
 export const DataPengurusFormSchema = z.object({
   name: z.string({ required_error: "Nama harus diisi!" }),
   DoB: z.date({ required_error: "Tanggal lahir harus diisi!" }),
+  position: z.string({ required_error: "Jabatan harus diisi!" }),
   address: z.string().optional(),
 });
 

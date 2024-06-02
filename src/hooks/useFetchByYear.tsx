@@ -11,7 +11,7 @@ export const useFetchByYear = (endpoint: string) => {
   const { data, isLoading, isRefetching, isError, error } = useQuery({
     queryKey: [endpoint, selectedYear],
     queryFn: async () => {
-      const { data: response } = await axiosInstance.get(endpoint, {
+      const { data: response } = await axiosInstance.get(`/${endpoint}`, {
         params: {
           year: selectedYear,
         },

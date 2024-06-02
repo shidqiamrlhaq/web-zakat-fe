@@ -5,6 +5,8 @@ import { id } from "date-fns/locale";
 import { TableActions } from "@/components/molecules";
 import { TPengurus } from "@/types";
 
+import { DialogEditForm } from "../DialogEditForm";
+
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 
@@ -16,6 +18,10 @@ export const columns: ColumnDef<TPengurus>[] = [
   {
     accessorKey: "name",
     header: "Nama",
+  },
+  {
+    accessorKey: "position",
+    header: "Jabatan",
   },
   {
     accessorKey: "DoB",
@@ -33,7 +39,11 @@ export const columns: ColumnDef<TPengurus>[] = [
     cell: ({ row }) => {
       const pengurus = row.original;
 
-      return <TableActions id={pengurus.id!} keyUrl="data-pengurus" />;
+      return (
+        <TableActions id={pengurus.id!} keyUrl="data-pengurus">
+          <DialogEditForm id={pengurus.id!} />
+        </TableActions>
+      );
     },
   },
 ];

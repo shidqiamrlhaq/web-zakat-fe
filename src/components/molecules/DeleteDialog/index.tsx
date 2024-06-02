@@ -50,7 +50,7 @@ export const DeleteDialog = ({ id, keyUrl }: DeleteDialogProps) => {
   return (
     <AlertDialog>
       <AlertDialogTrigger>
-        <Button className="shrink-0 p-2" variant="destructive">
+        <Button className="shrink-0 p-2" variant="destructive" title="Hapus">
           <Trash2 size={18} />
         </Button>
       </AlertDialogTrigger>

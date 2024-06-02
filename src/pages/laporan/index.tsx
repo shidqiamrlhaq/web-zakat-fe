@@ -26,7 +26,7 @@ export default function LaporanPage() {
     error,
     selectedYear,
     handleYearChange,
-  } = useFetchByYear("/laporan");
+  } = useFetchByYear("laporan");
 
   const componentRef = useRef();
   const handlePrint = useReactToPrint({
