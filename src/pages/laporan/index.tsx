@@ -85,19 +85,31 @@ export default function LaporanPage() {
               <TableRow className="">
                 <TableCell className="text-center">1</TableCell>
                 <TableCell>Uang</TableCell>
-                <TableCell>{data.penerimaan.muzakki.uang.pembayar}</TableCell>
-                <TableCell className="capitalize">
-                  {formatToRupiah(data.penerimaan.muzakki.uang.total)}
+                <TableCell>
+                  {data.penerimaan.muzakki.uang.pembayar
+                    ? data.penerimaan.muzakki.uang.pembayar
+                    : "-"}
                 </TableCell>
-                <TableCell className="capitalize"></TableCell>
+                <TableCell className="capitalize">
+                  {data.penerimaan.muzakki.uang.total
+                    ? formatToRupiah(data.penerimaan.muzakki.uang.total)
+                    : "-"}
+                </TableCell>
+                <TableCell className="capitalize">-</TableCell>
               </TableRow>
               <TableRow className="">
                 <TableCell className="text-center">2</TableCell>
                 <TableCell>Beras</TableCell>
-                <TableCell>{data.penerimaan.muzakki.beras.pembayar}</TableCell>
-                <TableCell className="capitalize"></TableCell>
+                <TableCell>
+                  {data.penerimaan.muzakki.beras.pembayar
+                    ? data.penerimaan.muzakki.beras.pembayar
+                    : "-"}
+                </TableCell>
+                <TableCell className="capitalize">-</TableCell>
                 <TableCell className="capitalize">
-                  {data.penerimaan.muzakki.beras.total} Kg
+                  {data.penerimaan.muzakki.beras.total
+                    ? `${data.penerimaan.muzakki.beras.total} Kg`
+                    : "-"}
                 </TableCell>
               </TableRow>
             </TableBody>
@@ -113,23 +125,37 @@ export default function LaporanPage() {
               <TableRow className="">
                 <TableCell className="text-center">1</TableCell>
                 <TableCell>Uang</TableCell>
-                <TableCell>{data.penerimaan.munfiq.total}</TableCell>
-                <TableCell className="capitalize">
-                  {formatToRupiah(data.penerimaan.munfiq.uang.total)}
+                <TableCell>
+                  {data.penerimaan.munfiq.total
+                    ? data.penerimaan.munfiq.total
+                    : "-"}
                 </TableCell>
-                <TableCell className="capitalize"></TableCell>
+                <TableCell className="capitalize">
+                  {data.penerimaan.munfiq.uang.total
+                    ? formatToRupiah(data.penerimaan.munfiq.uang.total)
+                    : "-"}
+                </TableCell>
+                <TableCell className="capitalize">-</TableCell>
               </TableRow>
             </TableBody>
             {/* Total Penerimaan */}
             <TableBody className="border-t bg-muted/50 [&>tr]:last:border-b-0">
               <TableRow className="font-bold">
                 <TableCell colSpan={2}>Total Penerimaan</TableCell>
-                <TableCell>{data.penerimaan.total.pembayar}</TableCell>
-                <TableCell className="capitalize">
-                  {formatToRupiah(data.penerimaan.total.uang)}
+                <TableCell>
+                  {data.penerimaan.total.pembayar
+                    ? data.penerimaan.total.pembayar
+                    : "-"}
                 </TableCell>
                 <TableCell className="capitalize">
-                  {data.penerimaan.total.beras} Kg
+                  {data.penerimaan.total.uang
+                    ? formatToRupiah(data.penerimaan.total.uang)
+                    : "-"}
+                </TableCell>
+                <TableCell className="capitalize">
+                  {data.penerimaan.total.beras
+                    ? `${data.penerimaan.total.beras} Kg`
+                    : "-"}
                 </TableCell>
               </TableRow>
             </TableBody>
@@ -144,16 +170,24 @@ export default function LaporanPage() {
               </TableRow>
               <TableRow className="">
                 <TableCell className="text-center">1</TableCell>
-                <TableCell>Fakir Miskin & Fisabilillah</TableCell>
-                <TableCell>{data.penyaluran.mustahik.total}</TableCell>
-                <TableCell className="capitalize">
-                  {formatToRupiah(data.penyaluran.mustahik.uang.total)}
+                <TableCell>Fakir Miskin, Fisabilillah, dan Amil</TableCell>
+                <TableCell>
+                  {data.penyaluran.mustahik.total
+                    ? data.penyaluran.mustahik.total
+                    : "-"}
                 </TableCell>
                 <TableCell className="capitalize">
-                  {data.penyaluran.mustahik.beras.total} Kg
+                  {data.penyaluran.mustahik.uang.total
+                    ? formatToRupiah(data.penyaluran.mustahik.uang.total)
+                    : "-"}
+                </TableCell>
+                <TableCell className="capitalize">
+                  {data.penyaluran.mustahik.beras.total
+                    ? `${data.penyaluran.mustahik.beras.total} Kg`
+                    : "-"}
                 </TableCell>
               </TableRow>
-              <TableRow className="">
+              {/* <TableRow className="">
                 <TableCell className="text-center">2</TableCell>
                 <TableCell>Amil</TableCell>
                 <TableCell>{data.penyaluran.pengurus.total}</TableCell>
@@ -163,18 +197,26 @@ export default function LaporanPage() {
                 <TableCell className="capitalize">
                   {data.penyaluran.pengurus.beras.total} Kg
                 </TableCell>
-              </TableRow>
+              </TableRow> */}
             </TableBody>
             {/* Total Penyaluran */}
             <TableBody className="border-t bg-muted/50 [&>tr]:last:border-b-0">
               <TableRow className="font-bold">
                 <TableCell colSpan={2}>Total Penyaluran</TableCell>
-                <TableCell>{data.penyaluran.total.penerima}</TableCell>
-                <TableCell className="capitalize">
-                  {formatToRupiah(data.penyaluran.total.uang)}
+                <TableCell>
+                  {data.penyaluran.total.penerima
+                    ? data.penyaluran.total.penerima
+                    : "-"}
                 </TableCell>
                 <TableCell className="capitalize">
-                  {data.penyaluran.total.beras} Kg
+                  {data.penyaluran.total.uang
+                    ? formatToRupiah(data.penyaluran.total.uang)
+                    : "-"}
+                </TableCell>
+                <TableCell className="capitalize">
+                  {data.penyaluran.total.beras
+                    ? `${data.penyaluran.total.beras} Kg`
+                    : "-"}
                 </TableCell>
               </TableRow>
             </TableBody>
@@ -183,10 +225,12 @@ export default function LaporanPage() {
                 <TableCell colSpan={2}>Total Saldo</TableCell>
                 <TableCell></TableCell>
                 <TableCell className="capitalize">
-                  {formatToRupiah(data.totalSaldoUang)}
+                  {data.totalSaldoUang
+                    ? formatToRupiah(data.totalSaldoUang)
+                    : "-"}
                 </TableCell>
                 <TableCell className="capitalize">
-                  {data.totalSaldoBeras} Kg
+                  {data.totalSaldoBeras ? `${data.totalSaldoBeras} Kg` : "-"}
                 </TableCell>
               </TableRow>
             </TableFooter>
