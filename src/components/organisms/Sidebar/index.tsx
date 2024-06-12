@@ -87,7 +87,7 @@ export const Sidebar = () => {
                       <Link
                         key={item.name}
                         href={item.href!}
-                        className={`flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:bg-muted hover:text-primary/80 lg:text-lg ${router.pathname === item.href ? "bg-muted text-primary" : ""}`}
+                        className={`flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:bg-muted hover:text-primary/80 ${router.pathname === item.href ? "bg-muted text-primary" : ""}`}
                       >
                         <item.icon className="h-5 w-5" />
                         {item.name}

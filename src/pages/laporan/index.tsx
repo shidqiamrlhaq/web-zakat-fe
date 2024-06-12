@@ -50,7 +50,9 @@ export default function LaporanPage() {
       </div>
       <div className="flex flex-col gap-y-8" ref={componentRef as any}>
         <div className="mt-4 w-full text-center text-sm font-bold uppercase sm:text-base lg:text-xl">
-          <h3>Laporan Zakat Fitrah</h3>
+          <h3>
+            Laporan penerimaan serta penyaluran uang dan beras zakat fitrah
+          </h3>
           <p>Masjid Jamie Al-Hidayah Narongtong</p>
           <p>Jatinangor, Sumedang</p>
           <p>Tahun {selectedYear}</p>

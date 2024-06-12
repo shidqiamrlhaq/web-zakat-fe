@@ -63,7 +63,7 @@ export const FormDialog = () => {
   return (
     <Dialog>
       <div className="flex w-full items-center justify-between border-b p-4">
-        <h2 className="font-semibold lg:text-2xl">Data Masyarakat</h2>
+        <h2 className="font-semibold lg:text-2xl">Data Muzakki & Mustahik</h2>
         <DialogTrigger asChild>
           <Button size={"sm"}>
             <PlusIcon size={18} />
@@ -74,7 +74,7 @@ export const FormDialog = () => {
       <DialogContent className="sm:max-w-xl">
         <DialogHeader>
           <DialogTitle className="text-center">
-            Tambah Data Masyarakat
+            Tambah Data Muzakki/Mustahik
           </DialogTitle>
           <DialogDescription>* Harus Diisi</DialogDescription>
         </DialogHeader>

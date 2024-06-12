@@ -29,7 +29,7 @@ export const navItems = [
   },
   { name: "Infaq", href: "/infaq", icon: HeartHandshake, collapsible: false },
   {
-    name: "Data Masyarakat",
+    name: "Data Muzakki & Mustahik",
     href: "/masyarakat",
     icon: Users,
     collapsible: false,

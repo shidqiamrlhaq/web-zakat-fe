@@ -24,7 +24,7 @@ import {
 import { Form } from "@/components/ui/form";
 import { axiosInstance } from "@/lib/api";
 import { MuzakkiFormSchema } from "@/lib/formSchema";
-import { TCreateMuzakki } from "@/types";
+import { TCreateMuzakki, typeMasyarakat } from "@/types";
 
 export const FormDialog = () => {
   const queryClient = useQueryClient();
@@ -60,11 +60,16 @@ export const FormDialog = () => {
     mutate(newMuzakki);
   }
 
-  const {
-    data: dataPengurus,
-    isLoading,
-    isError,
-  } = useQuery({
+  const { data: dataMasyarakat } = useQuery({
+    queryKey: ["masyarakat"],
+    queryFn: async () => {
+      const { data: response } = await axiosInstance.get("/masyarakat");
+      return response.data;
+    },
+    // initialData: () => queryClient.getQueryData(["data-pengurus"]),
+  });
+
+  const { data: dataPengurus } = useQuery({
     queryKey: ["data-pengurus"],
     queryFn: async () => {
       const { data: response } = await axiosInstance.get("/data-pengurus");
@@ -101,11 +106,21 @@ export const FormDialog = () => {
               formName="paymentDate"
               label="Tanggal Penerimaan*"
             />
-            <FormInputField
+            <FormSelectField
               form={form}
               formName="name"
               label="Nama Muzakki*"
-              placeholder="Masukkan Nama Muzakki"
+              placeholder="Pilih Nama Muzakki"
+              options={
+                !dataMasyarakat
+                  ? []
+                  : dataMasyarakat
+                      .filter(
+                        (item: { type: string }) =>
+                          item.type === typeMasyarakat.MUZAKKI,
+                      )
+                      .map((item: { name: string }) => item.name)
+              }
             />
             <FormSelectField
               form={form}

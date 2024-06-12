@@ -24,7 +24,7 @@ export default function MasyarakatPage() {
           <p>Tidak ada data</p>
         </div>
       )}
-      {data && <DataTable columns={columns} data={data} />}
+      {data && <DataTable columns={columns} data={data} sort />}
     </div>
   );
 }
