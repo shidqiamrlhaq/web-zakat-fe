@@ -11,7 +11,7 @@ import {
 export const navItems = [
   { name: "Beranda", href: "/", icon: Home, collapsible: false },
   {
-    name: "Zakat",
+    name: "Transaksi Zakat",
     icon: HandCoins,
     collapsible: true,
     subItems: [

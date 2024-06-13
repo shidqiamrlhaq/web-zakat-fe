@@ -57,7 +57,7 @@ export const Sidebar = () => {
                       <Collapsible open={isOpen} onOpenChange={setIsOpen}>
                         <CollapsibleTrigger
                           className={
-                            "flex w-full items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:bg-muted hover:text-primary/80 lg:text-lg"
+                            "flex w-full items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:bg-muted hover:text-primary/80"
                           }
                         >
                           <div className="flex w-full items-center justify-between gap-x-3">
@@ -75,7 +75,7 @@ export const Sidebar = () => {
                             <Link
                               key={subItem.subName}
                               href={subItem.subHref}
-                              className={`ml-5 flex items-center rounded-lg p-1 text-sm text-muted-foreground transition-all hover:bg-muted hover:text-primary/80 lg:text-base ${router.pathname === subItem.subHref ? "bg-muted text-primary" : ""}`}
+                              className={`ml-5 flex items-center rounded-lg p-1 text-xs text-muted-foreground transition-all hover:bg-muted hover:text-primary/80 lg:text-sm ${router.pathname === subItem.subHref ? "bg-muted text-primary" : ""}`}
                             >
                               <subItem.subIcon className="h-5 w-5" />
                               {subItem.subName}
