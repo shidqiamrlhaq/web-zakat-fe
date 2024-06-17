@@ -17,7 +17,7 @@ export default function HomePage() {
 
   const cardItems = [
     {
-      title: "Data Masyarakat",
+      title: "Data Muzakki & Mustahik",
       description: "Total",
       icon: <Users size={26} />,
       totalPeople: data?.totalMasyarakat,

@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 
-import { FormInputField } from "@/components/molecules";
+import { FormInputField, FormSelectField } from "@/components/molecules";
 import { FormCalendarField } from "@/components/molecules/FormCalendarField";
 import { Button } from "@/components/ui/button";
 import {
@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/dialog";
 import { Form } from "@/components/ui/form";
 import { axiosInstance } from "@/lib/api";
+import { jabatan } from "@/lib/constant";
 import { DataPengurusFormSchema } from "@/lib/formSchema";
 import { TCreatePengurus } from "@/types";
 
@@ -80,11 +81,12 @@ export const DialogEditForm = ({ id }: { id: number }) => {
             formName="DoB"
             label="Tanggal Lahir*"
           />
-          <FormInputField
+          <FormSelectField
             form={form}
             formName="position"
             label="Jabatan*"
-            placeholder="Masukkan Jabatan"
+            placeholder="Pilih Jabatan"
+            options={jabatan}
           />
           <FormInputField
             form={form}

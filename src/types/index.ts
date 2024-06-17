@@ -2,7 +2,7 @@ export type TPengurus = {
   id?: number;
   name: string;
   DoB: Date;
-  address?: string;
+  address: string;
 };
 
 export type TMustahik = {
@@ -11,7 +11,7 @@ export type TMustahik = {
   distributionDate: Date;
   amountRice: number;
   amountMoney: number;
-  notes?: string;
+  notes: string;
 
   pengurusName: TPengurus["name"]; // foreign key
 };
@@ -22,7 +22,7 @@ export type TMuzakki = {
   paymentDate: Date;
   amountRice: number;
   amountMoney: number;
-  notes?: string;
+  notes: string;
 
   pengurusName: TPengurus["name"]; // foreign key
 };
@@ -32,7 +32,7 @@ export type TInfaq = {
   name: string;
   date: Date;
   amountMoney: number;
-  notes?: string;
+  notes: string;
 
   pengurusName: TPengurus["name"]; // foreign key
 };
@@ -40,13 +40,13 @@ export type TInfaq = {
 export type TMasyarakat = {
   id?: number;
   name: string;
-  DoB?: Date;
-  PoB?: string;
-  job?: string;
+  DoB: Date;
+  PoB: string;
+  job: string;
   type: typeMasyarakat;
 
-  phone?: string;
-  address?: string;
+  phone: string;
+  address: string;
 };
 
 export enum typeMasyarakat {
@@ -58,6 +58,26 @@ export type TLogin = {
   username: string;
   password: string;
 };
+
+export enum jobType {
+  PNS = "PNS",
+  WIRASWASTA = "WIRASWASTA",
+  APARAT = "TNI/POLRI",
+  SWASTA = "PEGAWAI SWASTA",
+  BURUH = "BURUH",
+  PELAJAR = "PELAJAR/MAHASISWA",
+  GURU = "GURU",
+  PENGANGGURAN = "TIDAK BEKERJA",
+  LAINNYA = "LAINNYA",
+}
+
+export enum jabatanPengurus {
+  KETUA = "KETUA DKM",
+  ANGGOTA = "ANGGOTA",
+  BENDAHARA = "BENDAHARA",
+  SEKRETARIS = "SEKRETARIS",
+  UPZ = "KETUA UPZ",
+}
 
 export type TCreateMasyarakat = Omit<TMasyarakat, "id">;
 

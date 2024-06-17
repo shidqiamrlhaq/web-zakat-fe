@@ -23,6 +23,7 @@ import {
 } from "@/components/ui/dialog";
 import { Form } from "@/components/ui/form";
 import { axiosInstance } from "@/lib/api";
+import { jobs } from "@/lib/constant";
 import { MasyarakatFormSchema } from "@/lib/formSchema";
 import { TCreateMasyarakat, typeMasyarakat } from "@/types";
 
@@ -66,7 +67,7 @@ export const DialogEditForm = ({ id }: { id: number }) => {
   return (
     <DialogContent className="sm:max-w-xl">
       <DialogHeader>
-        <DialogTitle className="text-center">Data Masyarakat</DialogTitle>
+        <DialogTitle className="text-center">Data Muzakki/Mustahik</DialogTitle>
         <DialogDescription>* Harus Diisi</DialogDescription>
       </DialogHeader>
       <Form {...form}>
@@ -90,26 +91,31 @@ export const DialogEditForm = ({ id }: { id: number }) => {
           <FormInputField
             form={form}
             formName="PoB"
-            label="Tempat Lahir"
+            label="Tempat Lahir*"
             placeholder="Masukkan Tempat Lahir"
           />
-          <FormCalendarField form={form} formName="DoB" label="Tanggal Lahir" />
-          <FormInputField
+          <FormCalendarField
+            form={form}
+            formName="DoB"
+            label="Tanggal Lahir*"
+          />
+          <FormSelectField
             form={form}
             formName="job"
-            label="Pekerjaan"
-            placeholder="Masukkan Pekerjaan"
+            label="Pekerjaan*"
+            placeholder="Pilih Pekerjaan"
+            options={jobs}
           />
           <FormInputField
             form={form}
             formName="phone"
-            label="Nomor Telepon"
+            label="Nomor Telepon*"
             placeholder="Masukkan Nomor Telepon"
           />
           <FormInputField
             form={form}
             formName="address"
-            label="Alamat"
+            label="Alamat*"
             placeholder="Masukkan Alamat"
           />
           <DialogFooter>

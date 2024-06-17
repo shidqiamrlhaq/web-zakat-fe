@@ -1,6 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { PlusIcon, Save } from "lucide-react";
+import { ArrowRight, PlusIcon, Save } from "lucide-react";
+import { useRouter } from "next/router";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -23,10 +24,17 @@ import {
 } from "@/components/ui/dialog";
 import { Form } from "@/components/ui/form";
 import { axiosInstance } from "@/lib/api";
+import { jobs } from "@/lib/constant";
 import { MasyarakatFormSchema } from "@/lib/formSchema";
 import { TCreateMasyarakat, typeMasyarakat } from "@/types";
 
 export const FormDialog = () => {
+  const [type, setType] = React.useState<typeMasyarakat | string | undefined>(
+    undefined,
+  );
+
+  const router = useRouter();
+
   const queryClient = useQueryClient();
   const form = useForm<z.infer<typeof MasyarakatFormSchema>>({
     resolver: zodResolver(MasyarakatFormSchema),
@@ -99,30 +107,31 @@ export const FormDialog = () => {
             <FormInputField
               form={form}
               formName="PoB"
-              label="Tempat Lahir"
+              label="Tempat Lahir*"
               placeholder="Masukkan Tempat Lahir"
             />
             <FormCalendarField
               form={form}
               formName="DoB"
-              label="Tanggal Lahir"
+              label="Tanggal Lahir*"
             />
-            <FormInputField
+            <FormSelectField
               form={form}
               formName="job"
-              label="Pekerjaan"
-              placeholder="Masukkan Pekerjaan"
+              label="Pekerjaan*"
+              placeholder="Pilih Pekerjaan"
+              options={jobs}
             />
             <FormInputField
               form={form}
               formName="phone"
-              label="Nomor Telepon"
+              label="Nomor Telepon*"
               placeholder="Masukkan Nomor Telepon"
             />
             <FormInputField
               form={form}
               formName="address"
-              label="Alamat"
+              label="Alamat*"
               placeholder="Masukkan Alamat"
             />
             <DialogFooter>

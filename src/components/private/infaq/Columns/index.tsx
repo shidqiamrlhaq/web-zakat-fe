@@ -12,8 +12,8 @@ import { DialogEditForm } from "../DialogEditForm";
 
 export const columns: ColumnDef<TInfaq>[] = [
   {
-    accessorKey: "id",
-    header: "ID",
+    header: "No.",
+    cell: (info) => info.row.index + 1,
   },
   {
     accessorKey: "date",

@@ -6,7 +6,11 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 
-import { FormCalendarField, FormInputField } from "@/components/molecules";
+import {
+  FormCalendarField,
+  FormInputField,
+  FormSelectField,
+} from "@/components/molecules";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -19,6 +23,7 @@ import {
 } from "@/components/ui/dialog";
 import { Form } from "@/components/ui/form";
 import { axiosInstance } from "@/lib/api";
+import { jabatan } from "@/lib/constant";
 import { DataPengurusFormSchema } from "@/lib/formSchema";
 import { TCreatePengurus } from "@/types";
 
@@ -94,11 +99,12 @@ export const FormDialog = () => {
               formName="DoB"
               label="Tanggal Lahir*"
             />
-            <FormInputField
+            <FormSelectField
               form={form}
               formName="position"
               label="Jabatan*"
-              placeholder="Masukkan Jabatan"
+              placeholder="Pilih Jabatan"
+              options={jabatan}
             />
             <FormInputField
               form={form}

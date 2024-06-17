@@ -8,6 +8,8 @@ import {
   UsersRound,
 } from "lucide-react";
 
+import { jabatanPengurus, jobType } from "@/types";
+
 export const navItems = [
   { name: "Beranda", href: "/", icon: Home, collapsible: false },
   {
@@ -41,4 +43,24 @@ export const navItems = [
     collapsible: false,
   },
   { name: "Laporan", href: "/laporan", icon: NotebookText, collapsible: false },
+];
+
+export const jobs: jobType[] = [
+  jobType.PNS,
+  jobType.WIRASWASTA,
+  jobType.APARAT,
+  jobType.SWASTA,
+  jobType.BURUH,
+  jobType.PELAJAR,
+  jobType.GURU,
+  jobType.PENGANGGURAN,
+  jobType.LAINNYA,
+];
+
+export const jabatan: jabatanPengurus[] = [
+  jabatanPengurus.KETUA,
+  jabatanPengurus.ANGGOTA,
+  jabatanPengurus.BENDAHARA,
+  jabatanPengurus.SEKRETARIS,
+  jabatanPengurus.UPZ,
 ];

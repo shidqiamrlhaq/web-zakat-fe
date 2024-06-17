@@ -39,6 +39,7 @@ export const FormInputField = ({
               {...field}
               type={type}
               onWheelCapture={(e) => e.currentTarget.blur()}
+              min={0}
             />
           </FormControl>
           <FormMessage />
