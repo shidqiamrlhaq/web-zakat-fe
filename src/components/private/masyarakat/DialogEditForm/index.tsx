@@ -1,6 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Save } from "lucide-react";
+import { ArrowRight, Save } from "lucide-react";
+import { useRouter } from "next/router";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -28,6 +29,8 @@ import { MasyarakatFormSchema } from "@/lib/formSchema";
 import { TCreateMasyarakat, typeMasyarakat } from "@/types";
 
 export const DialogEditForm = ({ id }: { id: number }) => {
+  const router = useRouter();
+
   const queryClient = useQueryClient();
   const form = useForm<z.infer<typeof MasyarakatFormSchema>>({
     resolver: zodResolver(MasyarakatFormSchema),
@@ -122,6 +125,23 @@ export const DialogEditForm = ({ id }: { id: number }) => {
             <Button type="submit" className="mt-2 w-full" disabled={isPending}>
               <Save size={18} className="mr-2" /> Simpan
             </Button>
+            {form.watch("type") && form.formState.isValid && (
+              <Button
+                type="submit"
+                className="mt-2 w-full"
+                disabled={form.watch("type") === undefined}
+                onClick={() => {
+                  form.watch("type") === typeMasyarakat.MUZAKKI
+                    ? router.push("/muzakki")
+                    : router.push("/mustahik");
+                }}
+              >
+                {form.watch("type") === typeMasyarakat.MUZAKKI
+                  ? "Muzakki"
+                  : "Mustahik"}
+                <ArrowRight size={18} className="ml-2" />
+              </Button>
+            )}
           </DialogFooter>
         </form>
       </Form>

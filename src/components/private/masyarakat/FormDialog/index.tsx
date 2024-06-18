@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ArrowRight, PlusIcon, Save } from "lucide-react";
 import { useRouter } from "next/router";
 import React from "react";
@@ -29,10 +29,6 @@ import { MasyarakatFormSchema } from "@/lib/formSchema";
 import { TCreateMasyarakat, typeMasyarakat } from "@/types";
 
 export const FormDialog = () => {
-  const [type, setType] = React.useState<typeMasyarakat | string | undefined>(
-    undefined,
-  );
-
   const router = useRouter();
 
   const queryClient = useQueryClient();
@@ -142,6 +138,23 @@ export const FormDialog = () => {
               >
                 <Save size={18} className="mr-2" /> Simpan
               </Button>
+              {form.watch("type") && form.formState.isValid && (
+                <Button
+                  type="submit"
+                  className="mt-2 w-full"
+                  disabled={form.watch("type") === undefined}
+                  onClick={() => {
+                    form.watch("type") === typeMasyarakat.MUZAKKI
+                      ? router.push("/muzakki")
+                      : router.push("/mustahik");
+                  }}
+                >
+                  {form.watch("type") === typeMasyarakat.MUZAKKI
+                    ? "Muzakki"
+                    : "Mustahik"}
+                  <ArrowRight size={18} className="ml-2" />
+                </Button>
+              )}
             </DialogFooter>
           </form>
         </Form>
