@@ -142,7 +142,11 @@ export const FormDialog = () => {
                 <Button
                   type="submit"
                   className="mt-2 w-full"
-                  disabled={form.watch("type") === undefined}
+                  disabled={
+                    form.watch("type") === undefined &&
+                    !form.formState.isValid &&
+                    isPending
+                  }
                   onClick={() => {
                     form.watch("type") === typeMasyarakat.MUZAKKI
                       ? router.push("/muzakki")
